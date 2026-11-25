@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NextStep Career — Latest Jobs for Freshers & Experienced</title>
+    <meta name="description" content="Daily job updates for freshers and experienced professionals. Search by company, role and experience, check your resume against the JD, and apply in one click." />
+    <meta name="theme-color" content="#141415" />
+    <script>
+      // set theme before the page paints (no white/dark flash)
+      (function () {
+        try {
+          var t = localStorage.getItem('nsc_theme') ||
+            (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.dataset.theme = t;
+          if (t === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fafafa');
+        } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+      })();
+    </script>
+    <meta property="og:title" content="NextStep Career" />
+    <meta property="og:description" content="Your next career move starts here — daily curated job updates." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NextStep" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- ===== Splash loader (shows instantly, before the app loads) ===== -->
+    <style>
+      #splash { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: #141415;
+        font-family: Geist, system-ui, sans-serif; color: #ededed; }
+      [data-theme='light'] #splash { background: #fafafa; color: #171717; }
+      #splash .sp-box { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+      #splash .sp-logo { width: 56px; height: 56px; }
+      #splash .sp-tile { opacity: 0; animation: sp-in .4s cubic-bezier(.22,1,.36,1) forwards; }
+      #splash .sp-code path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: sp-draw .45s cubic-bezier(.22,1,.36,1) forwards; }
+      #splash .sp-code path:nth-child(1) { animation-delay: .25s; }
+      #splash .sp-code path:nth-child(2) { animation-delay: .35s; }
+      #splash .sp-code path:nth-child(3) { animation-delay: .45s; }
+      #splash .sp-name { font-size: 18px; font-weight: 500; opacity: 0; transform: translateY(6px); animation: sp-in .4s cubic-bezier(.22,1,.36,1) .5s forwards; }
+      #splash .sp-name span { color: #85858b; font-weight: 400; }
+      [data-theme='light'] #splash .sp-name span { color: #737373; }
+      #splash .sp-bar { width: 120px; height: 2px; border-radius: 1px; background: rgba(237,237,237,.08); overflow: hidden; }
+      [data-theme='light'] #splash .sp-bar { background: rgba(23,23,23,.08); }
+      #splash .sp-bar i { display: block; height: 100%; width: 0; background: #FF8A1F; animation: sp-load 1.4s cubic-bezier(.22,1,.36,1) .3s forwards; }
+      @keyframes sp-in { to { opacity: 1; transform: none; } }
+      @keyframes sp-draw { to { stroke-dashoffset: 0; } }
+      @keyframes sp-load { to { width: 90%; } }
+      #splash.out { animation: sp-fade .3s cubic-bezier(.22,1,.36,1) forwards; }
+      #splash.out .sp-bar i { width: 100%; }
+      @keyframes sp-fade { to { opacity: 0; visibility: hidden; } }
+      @media (prefers-reduced-motion: reduce) { #splash *, #splash { animation-duration: .01ms !important; animation-delay: 0s !important; } }
+    </style>
+  </head>
+  <body>
+    <div id="splash" aria-label="Loading NextStep Career" role="status">
+      <div class="sp-box">
+        <svg class="sp-logo" viewBox="0 0 64 64" aria-hidden="true">
+          <rect class="sp-tile" x="2" y="2" width="60" height="60" rx="15" fill="#1B2A6B" />
+          <g class="sp-code" fill="none" stroke="#FF8A1F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 22 L12 30 L21 38" /><path d="M43 22 L52 30 L43 38" /><path d="M35 17 L29 43" />
+          </g>
+        </svg>
+        <div class="sp-name">NextStep <span>Career</span></div>
+        <div class="sp-bar"><i></i></div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
