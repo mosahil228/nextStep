@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Briefcase, MapPin, Wallet, X, Zap } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { CompanyAvatar, applyTo } from './JobCard';
-import { expLabel, timeAgo } from '../lib/utils';
+import { expLabel, jobPath, timeAgo } from '../lib/utils';
 
 const KEY = 'nsc_popup_seen';
 
@@ -66,7 +66,7 @@ export default function LatestJobPopup() {
               <button className="btn btn-primary btn-lg" onClick={() => { applyTo(job); close(); }}>
                 Apply now <ArrowUpRight size={16} strokeWidth={1.5} />
               </button>
-              <button className="btn btn-ghost btn-lg" onClick={() => { const id = job.id; close(); navigate(`/job/${id}`); }}>
+              <button className="btn btn-ghost btn-lg" onClick={() => { const to = jobPath(job); close(); navigate(to); }}>
                 View details
               </button>
             </div>

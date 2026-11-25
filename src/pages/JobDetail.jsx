@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight, Briefcase, Calendar, Heart, MapPin, Share2, Wallet, Laptop, Clock, TriangleAlert } from 'lucide-react';
 import { useApp } from '../lib/store';
@@ -7,7 +7,7 @@ import { fetchJob, trackJob } from '../lib/jobsApi';
 import JobCard, { CompanyAvatar, applyTo } from '../components/JobCard';
 import ResumeChecker from '../components/ResumeChecker';
 import { TelegramIcon } from '../components/Icons';
-import { expLabel, isFresher, shareJob, timeAgo } from '../lib/utils';
+import { expLabel, findJobByParam, isFresher, isFullId, jobPath, shareJob, timeAgo } from '../lib/utils';
 import { SITE } from '../config';
 
 // Turns plain-text JD into nice paragraphs / bullet lists
@@ -37,18 +37,41 @@ function JDText({ text }) {
 }
 
 export default function JobDetail() {
-  const { id } = useParams();
-  const { hash } = useLocation();
-  const { jobs, isSaved, toggleSave, notify } = useApp();
-  const [job, setJob] = useState(() => jobs.find((j) => j.id === id));
+  const { id: param } = useParams();
+  const { hash, search, pathname } = useLocation();
+  const navigate = useNavigate();
+  const { jobs, loading, isSaved, toggleSave, notify } = useApp();
+  const [job, setJob] = useState(() => findJobByParam(jobs, param));
   const [missing, setMissing] = useState(false);
   const resumeRef = useRef(null);
 
   useEffect(() => {
-    const local = jobs.find((j) => j.id === id);
-    if (local) setJob(local);
-    else fetchJob(id).then((j) => (j ? setJob(j) : setMissing(true))).catch(() => setMissing(true));
-  }, [id, jobs]);
+    setMissing(false);
+    const local = findJobByParam(jobs, param);
+    if (local) { setJob(local); return; }
+    if (loading) return; // wait until the job list has loaded
+    if (isFullId(param)) {
+      // e.g. an old link to a hidden job: ask the database directly
+      fetchJob(param).then((j) => (j ? setJob(j) : setMissing(true))).catch(() => setMissing(true));
+    } else {
+      setMissing(true);
+    }
+  }, [param, jobs, loading]);
+
+  // Old or edited links switch to the readable address (keeps ?ref=… and #resume)
+  useEffect(() => {
+    if (!job) return;
+    const nice = jobPath(job);
+    if (pathname !== nice) navigate(nice + search + hash, { replace: true });
+  }, [job, pathname]);
+
+  // Browser tab title, e.g. "Associate Consultant at IQVIA · NextStep Career"
+  useEffect(() => {
+    if (!job) return;
+    const before = document.title;
+    document.title = `${job.role} at ${job.company} · NextStep Career`;
+    return () => { document.title = before; };
+  }, [job]);
 
   useEffect(() => { if (job) trackJob(job.id, 'view'); window.scrollTo(0, 0); }, [job?.id]);
   useEffect(() => {

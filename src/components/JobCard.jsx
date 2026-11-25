@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Bookmark, Briefcase, Clock, MapPin, ScanSearch, Wallet } from 'lucide-react';
 import { useApp } from '../lib/store';
-import { expLabel, isFresher, isNew, timeAgo } from '../lib/utils';
+import { expLabel, isFresher, isNew, jobPath, timeAgo } from '../lib/utils';
 import { trackJob } from '../lib/jobsApi';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -43,7 +43,7 @@ export default function JobCard({ job, index = 0 }) {
       <div className="job-card-top">
         <CompanyAvatar job={job} />
         <div className="job-head">
-          <Link to={`/job/${job.id}`} className="job-role">{job.role}</Link>
+          <Link to={jobPath(job)} className="job-role">{job.role}</Link>
           <div className="job-company">{job.company}</div>
         </div>
         <button
@@ -76,7 +76,7 @@ export default function JobCard({ job, index = 0 }) {
           {job.job_type && job.job_type !== 'Full-time' && <span className="job-type">· {job.job_type}</span>}
         </span>
         <div className="job-actions">
-          <button className="btn btn-ghost btn-xs" onClick={() => navigate(`/job/${job.id}#resume`)} title="Check your resume against this job">
+          <button className="btn btn-ghost btn-xs" onClick={() => navigate(`${jobPath(job)}#resume`)} title="Check your resume against this job">
             <ScanSearch size={14} strokeWidth={1.5} /> Match
           </button>
           <button className="btn btn-primary btn-xs" onClick={() => applyTo(job)}>

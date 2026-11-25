@@ -41,8 +41,40 @@ export function companyColor(name = '') {
   return palette[h % palette.length];
 }
 
+// ---------- Readable job links ----------
+// /job/associate-consultant-iqvia-bengaluru-441bc9f4
+//      └── role, company, city ─────────────┘ └ short id (first part of the job id)
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export function slugify(text = '') {
+  return text
+    .toLowerCase()
+    .normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export const shortId = (id = '') => (UUID.test(id) ? id.slice(0, 8) : id.replace(/[^a-z0-9]/gi, '')).toLowerCase();
+
+export function jobSlug(job) {
+  const city = (job.location || '').split(/[,·/]/)[0];
+  const words = slugify(`${job.role} ${job.company} ${city}`).split('-').slice(0, 10).join('-');
+  return `${words}-${shortId(job.id)}`;
+}
+
+export const jobPath = (job) => `/job/${jobSlug(job)}`;
+
+// Works with new links (…-441bc9f4), old links (full id) and demo ids
+export function findJobByParam(jobs, param = '') {
+  if (UUID.test(param)) return jobs.find((j) => j.id === param);
+  const tail = param.split('-').pop().toLowerCase();
+  return jobs.find((j) => j.id === param || shortId(j.id) === tail);
+}
+export const isFullId = (param = '') => UUID.test(param);
+
 export function shareJob(job) {
-  const url = `${location.origin}/job/${job.id}`;
+  const url = `${location.origin}${jobPath(job)}`;
   const text = `${job.role} at ${job.company} – apply via NextStep Career`;
   if (navigator.share) return navigator.share({ title: text, url }).catch(() => {});
   navigator.clipboard?.writeText(url);

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Activity, Eye, Loader2, RefreshCw, Smartphone, Table2, BarChart3, TrendingDown, TrendingUp, Users, Globe } from 'lucide-react';
 import { fetchVisitStats } from '../lib/analytics';
 import { DEMO_MODE } from '../config';
+import { findJobByParam } from '../lib/utils';
 
 const RANGES = [7, 30, 90];
 const fmt = (n) => (n ?? 0).toLocaleString('en-IN');
@@ -142,7 +143,7 @@ export default function Analytics({ jobs }) {
     if (path === '/saved') return 'Saved jobs';
     if (path === '/resume-check') return 'Resume check';
     if (path.startsWith('/job/')) {
-      const j = jobs.find((x) => x.id === path.slice(5));
+      const j = findJobByParam(jobs, decodeURIComponent(path.slice(5)));
       return j ? `${j.role} · ${j.company}` : 'Job (removed)';
     }
     return path;
@@ -217,7 +218,7 @@ export default function Analytics({ jobs }) {
         <p className="small muted">Telegram and WhatsApp often hide where a visitor came from. Add a tag to the links you share so each visit is counted under the right source</p>
         <code>{location.origin}/?ref=telegram</code>
         <code>{location.origin}/?ref=whatsapp</code>
-        <code>{location.origin}/job/JOB-ID?ref=instagram</code>
+        <code>{location.origin}/job/associate-consultant-iqvia-bengaluru-441bc9f4?ref=instagram</code>
       </div>
     </div>
   );

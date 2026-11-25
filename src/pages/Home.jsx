@@ -6,7 +6,7 @@ import JobsExplorer from '../components/JobsExplorer';
 import JobCard, { CompanyAvatar } from '../components/JobCard';
 import { ChannelCTA } from '../components/Footer';
 import { useApp } from '../lib/store';
-import { expLabel, isNew, timeAgo, trendScore } from '../lib/utils';
+import { isNew, jobPath, timeAgo, trendScore } from '../lib/utils';
 import { isFresher } from '../lib/utils';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -21,7 +21,8 @@ function HeroPreview({ jobs }) {
   const last = (() => {
     try {
       const m = JSON.parse(localStorage.getItem('nsc_last_match'));
-      return m && jobs.some((j) => j.id === m.jobId) ? m : null;
+      const job = m && jobs.find((j) => j.id === m.jobId);
+      return job ? { ...m, job } : null;
     } catch { return null; }
   })();
   if (!latest.length) return null;
@@ -32,7 +33,7 @@ function HeroPreview({ jobs }) {
         <span className="mono muted small">{jobs.length} open</span>
       </div>
       {latest.map((j) => (
-        <Link key={j.id} to={`/job/${j.id}`} className="hp-row">
+        <Link key={j.id} to={jobPath(j)} className="hp-row">
           <CompanyAvatar job={j} size={36} />
           <div className="hp-text">
             <b>{j.role}</b>
@@ -44,13 +45,13 @@ function HeroPreview({ jobs }) {
         </Link>
       ))}
       {last ? (
-        <Link to={`/job/${last.jobId}#resume`} className="hp-match">
+        <Link to={`${jobPath(last.job)}#resume`} className="hp-match">
           <small className="muted">Your last resume check · {last.role}</small>
           <div className="hp-score"><b>{last.score}</b><span className="muted"> / 100</span></div>
           <div className="hp-bar"><i style={{ width: `${last.score}%` }} /></div>
         </Link>
       ) : (
-        <Link to={`/job/${latest[0].id}#resume`} className="hp-match hp-cta">
+        <Link to={`${jobPath(latest[0])}#resume`} className="hp-match hp-cta">
           <span>
             <b>Check your resume for this job</b>
             <small className="muted">See your match score and missing skills for {latest[0].role}</small>
