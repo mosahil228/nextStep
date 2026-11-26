@@ -3,11 +3,12 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, animate, motion } from 'framer-motion';
 import {
   ArrowRight, Check, CircleAlert, CircleCheck, FileText, FileUp, History, Lightbulb, ListChecks, Loader2,
-  Pencil, RotateCcw, ScanSearch, Target, TriangleAlert, Upload, X,
+  Pencil, RotateCcw, ScanSearch, Send, ShieldCheck, Target, TriangleAlert, Upload, X,
 } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { readResumeDetailed, runAtsCheck, SAMPLE_RESUME } from '../lib/atsEngine';
 import { jobPath } from '../lib/utils';
+import { SITE } from '../config';
 
 const EASE = [0.22, 1, 0.36, 1];
 const KEY = 'nsc_ats_session_v1';
@@ -261,11 +262,11 @@ export default function AtsCheck() {
       <div className="container">
         {/* ---------- input ---------- */}
         {stage !== 'result' && (
+          <div className="ats-start">
           <section className="ats-input">
             <div className="ats-step">
-              <span className="step-badge">1</span>
+              <div className="ats-step-head"><span className="step-badge">1</span><h3>Add your resume</h3></div>
               <div className="ats-step-body">
-                <h3>Add your resume</h3>
                 <div
                   className={`dropzone big ${drag ? 'drag' : ''} ${fileName ? 'has-file' : ''}`}
                   onClick={() => fileRef.current.click()}
@@ -276,8 +277,8 @@ export default function AtsCheck() {
                 >
                   <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,.doc,image/*" hidden onChange={(e) => readFile(e.target.files[0])} />
                   <span className="dz-icon">{busy ? <Loader2 className="spin" size={20} /> : fileName ? <FileText size={20} strokeWidth={1.5} /> : <Upload size={20} strokeWidth={1.5} />}</span>
-                  <b>{fileName || 'Drop your resume here or browse'}</b>
-                  <small>{fileName ? `${(text.match(/\S+/g) || []).length} words read · click to choose another file` : 'PDF or DOCX works best · TXT also works'}</small>
+                  <b>{fileName || <><span className="dz-desk">Drop your resume here or <u>browse files</u></span><span className="dz-mob">Tap to upload your resume</span></>}</b>
+                  <small>{fileName ? `${(text.match(/\S+/g) || []).length} words read · click to choose another file` : 'PDF, DOCX or TXT · PDF and DOCX work best'}</small>
                 </div>
                 <div className="ats-alt">
                   <details>
@@ -292,15 +293,14 @@ export default function AtsCheck() {
             </div>
 
             <div className="ats-step">
-              <span className="step-badge">2</span>
+              <div className="ats-step-head"><span className="step-badge">2</span><h3>Check it against</h3></div>
               <div className="ats-step-body">
-                <h3>What should we check against?</h3>
                 <div className="seg" role="tablist">
                   <button role="tab" aria-selected={mode === 'general'} className={mode === 'general' ? 'on' : ''} onClick={() => setMode('general')}>
-                    <ListChecks size={16} strokeWidth={1.5} /> General ATS check
+                    <ListChecks size={16} strokeWidth={1.5} /> <span>Any job <small>General check</small></span>
                   </button>
                   <button role="tab" aria-selected={mode === 'job'} className={mode === 'job' ? 'on' : ''} onClick={() => setMode('job')}>
-                    <Target size={16} strokeWidth={1.5} /> Match a job
+                    <Target size={16} strokeWidth={1.5} /> <span>One job <small>Match keywords</small></span>
                   </button>
                 </div>
                 {mode === 'job' && (
@@ -340,6 +340,45 @@ export default function AtsCheck() {
               )}
             </AnimatePresence>
           </section>
+
+          <aside className="ats-aside">
+            <div className="ats-what">
+              <h3>What we check</h3>
+              <ul>
+                {[
+                  ['Contact & sections', 'Email, phone, LinkedIn, and the sections recruiters expect'],
+                  ['ATS formatting', 'Columns, tables, images and symbols that confuse parsers'],
+                  ['Impact', 'Numbers, action verbs and weak phrases in every bullet'],
+                  ['Wording', 'Buzzwords, repeated words and spelling slips'],
+                  ['Length & dates', 'One clean date format and the right length'],
+                  ['Job keywords', 'Skills the job asks for that your resume is missing'],
+                ].map(([t, d]) => (
+                  <li key={t}><CircleCheck size={16} strokeWidth={1.75} /><div><b>{t}</b><span>{d}</span></div></li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="ats-demo" aria-hidden="true">
+              <div className="ats-demo-row">
+                <div className="ats-demo-score warn"><b>63</b><small>Before</small></div>
+                <ArrowRight size={18} strokeWidth={1.5} />
+                <div className="ats-demo-score good"><b>89</b><small>After fixes</small></div>
+              </div>
+              <p>Sample resume: fix the flagged lines, press <b>Check again</b>, and watch the score climb.</p>
+            </div>
+
+            <div className="ats-private">
+              <ShieldCheck size={18} strokeWidth={1.5} />
+              <p>Your resume is read inside your browser. It is never uploaded or stored on our servers.</p>
+            </div>
+
+            <a className="ats-help" href={`https://t.me/${SITE.telegramUsername}`} target="_blank" rel="noreferrer">
+              <span className="ats-help-ic"><Send size={16} strokeWidth={1.75} /></span>
+              <span><b>Want a human review?</b><small>Message me on Telegram for resume, exam and interview help</small></span>
+              <ArrowRight size={16} strokeWidth={1.5} />
+            </a>
+          </aside>
+          </div>
         )}
 
         {/* ---------- results ---------- */}
