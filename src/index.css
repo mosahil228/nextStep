@@ -271,8 +271,8 @@ h4 { font-size: 14px; margin: 20px 0 8px; display: flex; align-items: center; ga
 .job-meta li { display: inline-flex; align-items: center; gap: 8px; }
 .job-meta svg { color: var(--muted); flex: none; }
 .job-skills { display: flex; flex-wrap: wrap; gap: 6px; }
-.job-skills span { height: 24px; padding: 0 8px; display: inline-flex; align-items: center; border-radius: 6px; font-family: var(--mono); font-size: 12px; color: var(--text-2); background: var(--raised); }
-.job-skills.lg span { height: 28px; padding: 0 10px; font-size: 13px; }
+.job-skills span { min-height: 24px; max-width: 100%; padding: 3px 8px; line-height: 1.4; overflow-wrap: anywhere; display: inline-flex; align-items: center; border-radius: 6px; font-family: var(--mono); font-size: 12px; color: var(--text-2); background: var(--raised); }
+.job-skills.lg span { min-height: 28px; padding: 4px 10px; font-size: 13px; }
 .job-foot { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .job-time { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
 .job-time.is-new { color: var(--text-2); }
