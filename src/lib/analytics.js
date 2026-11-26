@@ -140,7 +140,7 @@ function demoRows() {
   const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
   const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
   const sources = ['Telegram', 'Telegram', 'Telegram', 'WhatsApp', 'WhatsApp', 'Google', 'Direct', 'Direct', 'Instagram', 'Installed app', 'LinkedIn'];
-  const paths = ['/', '/', '/', '/jobs', '/jobs', '/jobs?level=fresher', '/job/demo-1', '/job/demo-2', '/job/demo-3', '/resume-check', '/saved', '/job/demo-7'];
+  const paths = ['/', '/', '/', '/jobs', '/jobs', '/jobs?level=fresher', '/job/demo-1', '/job/demo-2', '/job/demo-3', '/ats', '/saved', '/job/demo-7'];
   const rows = [];
   for (let day = 89; day >= 0; day--) {
     const base = 14 + (89 - day) * 0.55;

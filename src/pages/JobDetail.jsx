@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowUpRight, Briefcase, Calendar, Heart, MapPin, Share2, Wallet, Laptop, Clock, TriangleAlert } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Bookmark, Briefcase, Calendar, MapPin, Share2, Wallet, Laptop, Clock, TriangleAlert } from 'lucide-react';
 import { useApp } from '../lib/store';
 import { fetchJob, trackJob } from '../lib/jobsApi';
 import JobCard, { CompanyAvatar, applyTo } from '../components/JobCard';
@@ -119,7 +119,7 @@ export default function JobDetail() {
           <div className="detail-actions">
             <button className="btn btn-primary btn-lg" onClick={() => applyTo(job)}>Apply now <ArrowUpRight size={18} /></button>
             <motion.button whileTap={{ scale: 0.85 }} className={`btn btn-ghost btn-lg ${saved ? 'saved-on' : ''}`} onClick={() => toggleSave(job.id)}>
-              <Heart size={18} fill={saved ? 'currentColor' : 'none'} /> {saved ? 'Saved' : 'Save'}
+              <Bookmark size={16} strokeWidth={1.5} fill={saved ? 'currentColor' : 'none'} /> {saved ? 'Saved' : 'Save'}
             </motion.button>
             <button className="icon-btn lg" onClick={() => shareJob(job).then((r) => r === 'copied' && notify('Link copied'))} aria-label="Share"><Share2 size={18} /></button>
           </div>
@@ -147,13 +147,16 @@ export default function JobDetail() {
               <p className="small">Apply at your own risk. This update is shared from public sources — always verify on the official site. Never pay for a job.</p>
             </div>
             <a className="panel tg-side" href={`https://t.me/${SITE.telegramUsername}`} target="_blank" rel="noreferrer">
-              <TelegramIcon size={22} /> <div><b>Questions about this job?</b><small>Chat with me on Telegram</small></div>
+              <TelegramIcon size={22} /> <div><b>Need help with resume, exams or interviews?</b><small>Message me on Telegram</small></div>
             </a>
           </aside>
         </div>
 
         <section ref={resumeRef} id="resume" className="section">
-          <div className="section-head"><div><span className="eyebrow">Resume match</span><h2>Check your resume for this job</h2></div></div>
+          <div className="section-head">
+            <div><span className="eyebrow">Resume match</span><h2>Check your resume for this job</h2></div>
+            <Link to={`/ats?job=${job.id}`} className="link-btn">Full ATS check <ArrowUpRight size={16} strokeWidth={1.5} /></Link>
+          </div>
           <ResumeChecker job={job} />
         </section>
 
@@ -163,6 +166,12 @@ export default function JobDetail() {
             <div className="job-grid">{similar.map((j, i) => <JobCard key={j.id} job={j} index={i} />)}</div>
           </section>
         )}
+      </div>
+      <div className="apply-bar" role="region" aria-label="Apply">
+        <button className={`icon-btn lg ${saved ? 'is-saved' : ''}`} onClick={() => toggleSave(job.id)} aria-label={saved ? 'Remove from saved' : 'Save job'} aria-pressed={saved}>
+          <Bookmark size={18} strokeWidth={1.5} fill={saved ? 'currentColor' : 'none'} />
+        </button>
+        <button className="btn btn-primary btn-lg" onClick={() => applyTo(job)}>Apply now <ArrowUpRight size={16} strokeWidth={1.75} /></button>
       </div>
     </div>
   );

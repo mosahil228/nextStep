@@ -11,9 +11,9 @@ import ThemeToggle from './ThemeToggle';
 
 const links = [
   { to: '/', label: 'Home' },
-  { to: '/jobs', label: 'All Jobs' },
+  { to: '/jobs', label: 'All jobs' },
   { to: '/jobs?sort=trending', label: 'Trending' },
-  { to: '/resume-check', label: 'Resume Check' },
+  { to: '/ats', label: 'ATS checker' },
 ];
 
 export default function Navbar() {

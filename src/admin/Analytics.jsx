@@ -141,7 +141,7 @@ export default function Analytics({ jobs }) {
     if (path === '/') return 'Home';
     if (path === '/jobs') return p.includes('?') ? `All jobs (${p.split('?')[1].replace(/=/g, ': ').replace(/&/g, ', ')})` : 'All jobs';
     if (path === '/saved') return 'Saved jobs';
-    if (path === '/resume-check') return 'Resume check';
+    if (path === '/resume-check' || path === '/ats') return 'ATS checker';
     if (path.startsWith('/job/')) {
       const j = findJobByParam(jobs, decodeURIComponent(path.slice(5)));
       return j ? `${j.role} · ${j.company}` : 'Job (removed)';

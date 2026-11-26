@@ -10,8 +10,9 @@ export default function DisclaimerBar() {
       <div className="container disc-inner">
         <TriangleAlert size={16} strokeWidth={1.5} aria-hidden="true" />
         <p>
-          <span className="disc-strong">Apply at your own risk.</span> We share openings from public sources and
-          aren't the employer, so we can't guarantee any job or interview. Never pay anyone for a job.
+          <span className="disc-strong">Apply at your own risk.</span>{' '}
+          <span className="disc-full">We share openings from public sources and aren't the employer, so we can't guarantee any job or interview. Never pay anyone for a job.</span>
+          <span className="disc-short">We're not the employer. Never pay for a job.</span>
         </p>
         <button className="disc-close" aria-label="Hide notice"
           onClick={() => { sessionStorage.setItem('nsc_hide_disc', '1'); setOpen(false); }}>

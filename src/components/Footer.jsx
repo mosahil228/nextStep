@@ -36,7 +36,7 @@ export default function Footer() {
           <Link to="/jobs">All jobs</Link>
           <Link to="/jobs?level=fresher">Fresher jobs</Link>
           <Link to="/jobs?sort=trending">Trending</Link>
-          <Link to="/resume-check">Resume check</Link>
+          <Link to="/ats">ATS resume checker</Link>
           <Link to="/saved">Saved jobs</Link>
         </div>
         <div className="footer-links">

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
@@ -13,7 +13,8 @@ import Home from './pages/Home';
 import Jobs from './pages/Jobs';
 import JobDetail from './pages/JobDetail';
 import Saved from './pages/Saved';
-import ResumeCheck from './pages/ResumeCheck';
+import AtsCheck from './pages/AtsCheck';
+import MobileTabBar from './components/MobileTabBar';
 import Admin from './admin/Admin';
 import { Link } from 'react-router-dom';
 
@@ -40,13 +41,14 @@ export default function App() {
       <DisclaimerBar />
       <Navbar />
       <AnimatePresence mode="wait">
-        <motion.main key={loc.pathname} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.3 }}>
+        <motion.main key={loc.pathname} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}>
           <Routes location={loc}>
             <Route path="/" element={<Home />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/job/:id" element={<JobDetail />} />
             <Route path="/saved" element={<Saved />} />
-            <Route path="/resume-check" element={<ResumeCheck />} />
+            <Route path="/ats" element={<AtsCheck />} />
+            <Route path="/resume-check" element={<Navigate to="/ats" replace />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </motion.main>
@@ -55,6 +57,7 @@ export default function App() {
       <TelegramFab />
       <LatestJobPopup />
       <InstallBanner />
+      <MobileTabBar />
       <Toast />
     </>
   );

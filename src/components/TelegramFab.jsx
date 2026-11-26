@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { TelegramIcon, WhatsAppIcon } from './Icons';
@@ -7,6 +8,7 @@ import { SITE } from '../config';
 
 export default function TelegramFab() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
   const [hint, setHint] = useState(false);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function TelegramFab() {
   }, []);
 
   return (
-    <div className="fab-wrap">
+    <div className={`fab-wrap ${pathname === '/ats' ? 'on-ats' : ''} ${pathname.startsWith('/job/') ? 'on-job' : ''}`}>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -35,7 +37,7 @@ export default function TelegramFab() {
               <button className="icon-btn" onClick={() => setOpen(false)} aria-label="Close"><X size={16} strokeWidth={1.5} /></button>
             </div>
             <div className="chat-body">
-              <div className="bubble">Questions about a job, a referral or your resume? Send me a message on Telegram</div>
+              <div className="bubble">Need help with your resume, exam preparation or interview guidance? Send me a message on Telegram</div>
             </div>
             <a className="btn btn-telegram btn-block" href={`https://t.me/${SITE.telegramUsername}`} target="_blank" rel="noreferrer">
               <TelegramIcon size={16} /> Message me on Telegram
@@ -52,7 +54,7 @@ export default function TelegramFab() {
         {hint && !open && (
           <motion.button className="fab-hint" onClick={() => setOpen(true)}
             initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-            Ask me about any job
+            Help with resume, exams and interviews
           </motion.button>
         )}
       </AnimatePresence>
