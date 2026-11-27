@@ -1,0 +1,5 @@
+# Supabase CLI settings (used when deploying the auto-import function)
+project_id = "nextstep-career"
+
+[functions.daily-import]
+verify_jwt = false

@@ -7,6 +7,7 @@ import {
 import Logo from '../components/Logo';
 import ThemeToggle from '../components/ThemeToggle';
 import Analytics from './Analytics';
+import ImportQueue from './ImportQueue';
 import { markAsAdmin } from '../lib/analytics';
 import { adminLogin, adminLogout, adminSession, deleteJob, fetchJobs, saveJob } from '../lib/jobsApi';
 import { extractKeywords } from '../lib/resumeMatcher';
@@ -177,7 +178,7 @@ function Dashboard({ onLogout }) {
         </div>
 
         <div className="admin-tabs">
-          {[['jobs', 'Jobs'], ['analytics', 'Visitors']].map(([k, l]) => (
+          {[['jobs', 'Jobs'], ['import', 'Auto-import'], ['analytics', 'Visitors']].map(([k, l]) => (
             <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>
               {tab === k && <motion.span layoutId="admin-tab" className="admin-tab-pill" />}
               <span>{l}</span>
@@ -185,7 +186,7 @@ function Dashboard({ onLogout }) {
           ))}
         </div>
 
-        {tab === 'analytics' ? <Analytics jobs={jobs} /> : (<>
+        {tab === 'import' ? <ImportQueue onPublished={(m) => refresh(m)} notify={notify} /> : tab === 'analytics' ? <Analytics jobs={jobs} /> : (<>
         <div className="stats">
           {[
             { i: Briefcase, l: 'Total jobs', v: stats.total },
