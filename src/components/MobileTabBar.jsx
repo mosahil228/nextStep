@@ -1,13 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Bookmark, Briefcase, House, ScanSearch, TrendingUp } from 'lucide-react';
+import { Bookmark, Briefcase, Building2, House, ScanSearch } from 'lucide-react';
 import { useApp } from '../lib/store';
 
 // App-style navigation for phones (hidden on laptops and on job pages, which show an Apply bar)
 const TABS = [
   { to: '/', label: 'Home', icon: House, match: (p, s) => p === '/' },
   { to: '/jobs', label: 'Jobs', icon: Briefcase, match: (p, s) => p === '/jobs' && !s.includes('trending') },
-  { to: '/jobs?sort=trending', label: 'Trending', icon: TrendingUp, match: (p, s) => p === '/jobs' && s.includes('trending') },
+    { to: '/companies', label: 'Companies', icon: Building2, match: (p) => p === '/companies' },
   { to: '/ats', label: 'ATS check', icon: ScanSearch, match: (p) => p === '/ats' },
   { to: '/saved', label: 'Saved', icon: Bookmark, match: (p) => p === '/saved' },
 ];

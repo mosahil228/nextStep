@@ -14,6 +14,7 @@ import Jobs from './pages/Jobs';
 import JobDetail from './pages/JobDetail';
 import Saved from './pages/Saved';
 import AtsCheck from './pages/AtsCheck';
+import Companies from './pages/Companies';
 import MobileTabBar from './components/MobileTabBar';
 import Admin from './admin/Admin';
 import { Link } from 'react-router-dom';
@@ -48,6 +49,7 @@ export default function App() {
             <Route path="/job/:id" element={<JobDetail />} />
             <Route path="/saved" element={<Saved />} />
             <Route path="/ats" element={<AtsCheck />} />
+            <Route path="/companies" element={<Companies />} />
             <Route path="/resume-check" element={<Navigate to="/ats" replace />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

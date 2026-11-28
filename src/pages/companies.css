@@ -1,0 +1,37 @@
+/* Top companies page */
+.co-wrap { display: flex; flex-direction: column; gap: 14px; padding-bottom: 56px; }
+.co-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.co-chip-n { margin-left: 4px; font-family: var(--mono); font-size: 11.5px; opacity: .6; }
+.co-fresh { display: inline-flex; align-items: center; gap: 6px; }
+.co-count { font-size: 13px; }
+.co-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.co-card { position: relative; display: flex; flex-direction: column; border-radius: var(--r-card, 16px); background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-sm); transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease); }
+.co-card:hover { border-color: var(--line-2); transform: translateY(-2px); box-shadow: 0 14px 30px -18px rgba(0, 0, 0, .35); }
+.co-main { display: flex; align-items: center; gap: 12px; padding: 16px 16px 12px; color: inherit; text-decoration: none; border-radius: inherit; }
+.co-main:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.co-logo { width: 48px; height: 48px; flex: none; border-radius: 12px; object-fit: contain; background: #fff; border: 1px solid var(--line); padding: 7px; }
+.co-letter { display: grid; place-items: center; padding: 0; background: var(--raised); color: var(--text); font-weight: 650; font-size: 20px; }
+.co-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.co-text b { font-size: 16px; font-weight: 650; line-height: 1.25; overflow-wrap: anywhere; }
+.co-text small { font-size: 12.5px; color: var(--muted); }
+.co-arrow { flex: none; color: var(--muted); transition: transform .2s var(--ease), color .2s var(--ease); }
+.co-card:hover .co-arrow { color: var(--accent); transform: translate(2px, -2px); }
+.co-foot { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 0 16px 14px; margin-top: auto; }
+.co-tag { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px; border-radius: 7px; font-size: 12.5px; font-weight: 600; background: var(--raised); color: var(--text-2); white-space: nowrap; text-decoration: none; }
+.co-jobs { background: rgba(255, 138, 31, .14); color: var(--accent); }
+.co-jobs:hover { background: rgba(255, 138, 31, .22); }
+.co-visit { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--text); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-2); white-space: nowrap; }
+.co-visit:hover { text-decoration-color: var(--accent); }
+.co-note { font-size: 13px; text-align: center; margin-top: 12px; }
+@media (max-width: 760px) {
+  .co-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px 2px; }
+  .co-chips::-webkit-scrollbar { display: none; }
+  .co-chips .chip { flex: none; }
+  .co-grid { grid-template-columns: 1fr; gap: 10px; }
+  .co-main { padding: 14px 14px 10px; }
+  .co-foot { padding: 0 14px 12px; }
+  .co-logo { width: 44px; height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-card, .co-arrow { transition: none; }
+}

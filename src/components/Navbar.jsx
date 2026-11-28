@@ -13,6 +13,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/jobs', label: 'All jobs' },
   { to: '/jobs?sort=trending', label: 'Trending' },
+    { to: '/companies', label: 'Companies' },
   { to: '/ats', label: 'ATS checker' },
 ];
 
